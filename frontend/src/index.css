@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { font-size: 106.25%; } 
+  h1, h2, h3 { @apply font-display tracking-tight; }
+}
+
+@layer components {
+  .input { @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm transition focus:border-navy-700 focus:outline-none focus:ring-2 focus:ring-signal-500/40; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-signal-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60; }
+  .btn-primary { @apply btn bg-navy-800 text-white hover:bg-navy-700; }
+  .btn-ghost { @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500; }
+  .card { @apply rounded-lg border border-slate-200 bg-white shadow-sm; }
+}
+
+@keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes drift { from { transform: scale(1); } to { transform: scale(1.06); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-anim { animation: none !important; }
+}
