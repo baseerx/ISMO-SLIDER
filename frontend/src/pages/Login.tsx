@@ -42,7 +42,7 @@ export default function Login() {
       <form onSubmit={submit} noValidate className="relative w-full max-w-sm rounded-xl bg-white p-8 shadow-2xl shadow-black/30">
         <img src="/ismo_logo.png" alt="ISMO" className="mb-6 h-10 w-auto" />
         <h1 className="text-2xl font-bold text-navy-900">Sign in</h1>
-        <p className="mt-1 text-sm text-slate-500">Independent System and Market Operator. Manage the banners shown on ISMO websites.</p>
+        {/* <p className="mt-1 text-sm text-slate-500">Independent System and Market Operator. Manage the banners shown on ISMO websites.</p> */}
         {error && <div role="alert" className="mt-5 rounded-md border-l-4 border-red-500 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>}
         <div className="mt-6 space-y-4">
           <div><label htmlFor="u" className="mb-1.5 block text-sm font-medium text-slate-700">Username</label>
