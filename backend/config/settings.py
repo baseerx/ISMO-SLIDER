@@ -94,6 +94,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "apps.sliders.pagination.StandardPagination",
     "PAGE_SIZE": 10,
     "EXCEPTION_HANDLER": "apps.sliders.exceptions.api_exception_handler",
+    "DEFAULT_THROTTLE_RATES": {"public_slides": env("PUBLIC_SLIDES_RATE", default="120/min")},
 }
 
 SIMPLE_JWT = {

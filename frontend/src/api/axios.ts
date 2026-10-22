@@ -2,7 +2,10 @@ import axios, { AxiosError } from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 
 
-export const API_BASE: string = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api';
+// Production builds talk to the Waitress service (port 9005) on whichever host served the page.
+const API_PORT = import.meta.env.DEV ? 8000 : 9005;
+export const API_BASE: string =
+  import.meta.env.VITE_API_BASE_URL || `${window.location.protocol}//${window.location.hostname}:${API_PORT}/api`;
 
 export const tokens = {
   get access() { return localStorage.getItem('ismo_access'); },

@@ -1,5 +1,6 @@
 import { Paginated, PublicSlider, Slider, SliderFormValues, StatusFilter } from '../types';
-import { api } from './axios';
+import axios from 'axios';
+import { API_BASE, api } from './axios';
 
 export function toFormData(v: SliderFormValues): FormData {
   const fd = new FormData();
@@ -20,7 +21,9 @@ export const sliderApi = {
     api.get<Paginated<Slider>>('/sliders/', {
       params: { ...p, status: p.status === 'all' ? undefined : p.status, search: p.search || undefined },
     }).then((r) => r.data),
-  active: () => api.get<PublicSlider[]>('/sliders/active/').then((r) => r.data),
+  // Public feed for display screens: plain axios, so no token is sent and an expired
+  // session can never trigger the refresh/redirect-to-login interceptor.
+  active: () => axios.get<PublicSlider[]>(`${API_BASE}/sliders/active/`, { timeout: 20000 }).then((r) => r.data),
   create: (v: SliderFormValues) => api.post<Slider>('/sliders/', toFormData(v)).then((r) => r.data),
   update: (id: number, v: SliderFormValues) => api.patch<Slider>(`/sliders/${id}/`, toFormData(v)).then((r) => r.data),
   remove: (id: number) => api.delete(`/sliders/${id}/`),

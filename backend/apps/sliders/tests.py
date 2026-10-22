@@ -47,6 +47,15 @@ class SliderApiTests(APITestCase):
         self.assertEqual(self.client.get("/api/sliders/").status_code, 401)
         self.assertEqual(self.client.get("/api/sliders/active/").status_code, 200)
 
+    def test_public_feed_ignores_stale_token_and_hides_internal_fields(self):
+        self.client.credentials(HTTP_AUTHORIZATION="Bearer expired.or.garbage")
+        res = self.client.get("/api/sliders/active/")
+        self.assertEqual(res.status_code, 200)
+        self.assertGreaterEqual(self.client.post("/api/sliders/active/", {}).status_code, 400)
+        for item in res.data:
+            self.assertNotIn("created_by_name", item)
+            self.assertNotIn("is_active", item)
+
     def test_create_and_insert_shifts_order(self):
         self.login()
         for i, n in enumerate(["A", "B", "C"], 1):

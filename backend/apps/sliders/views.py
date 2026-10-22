@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 
 from . import services
 from .models import Slider
@@ -11,6 +12,10 @@ from .serializers import (
 )
 
 SORT_FIELDS = {"display_order", "name", "created_at", "updated_at"}
+
+
+class PublicSlidesThrottle(AnonRateThrottle):
+    scope = "public_slides"
 
 
 class SliderViewSet(viewsets.ModelViewSet):
@@ -48,7 +53,10 @@ class SliderViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         services.delete_slider(instance)
 
-    @action(detail=False, methods=["get"], pagination_class=None)
+    # Public, read-only feed for display screens. No authentication: a stale token left in a
+    # kiosk browser must not turn this into a 401. Throttled per IP since anyone can call it.
+    @action(detail=False, methods=["get"], pagination_class=None,
+            authentication_classes=[], throttle_classes=[PublicSlidesThrottle])
     def active(self, request):
         qs = Slider.objects.filter(is_active=True).order_by("display_order", "id")
         data = PublicSliderSerializer(qs, many=True, context={"request": request}).data

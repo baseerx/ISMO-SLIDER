@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { sliderApi } from '../api/sliderApi';
 import SliderCarousel from '../components/sliders/SliderCarousel';
+import { useAuth } from '../context/AuthContext';
 import { PublicSlider } from '../types';
 import { getErrorMessage } from '../utils/errors';
 
@@ -10,6 +11,7 @@ export default function SliderPreview() {
   const [slides, setSlides] = useState<PublicSlider[] | null>(null);
   const [error, setError] = useState('');
   const [isFull, setIsFull] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => { sliderApi.active().then(setSlides).catch((e) => setError(getErrorMessage(e))); }, []);
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function SliderPreview() {
       <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between p-4 sm:p-6">
         <span className="rounded-lg bg-white px-4 py-2 shadow-lg"><img src="/ismo_logo.png" alt="ISMO" className="h-9 w-auto sm:h-11" /></span>
         <div className="flex items-center gap-3">
-          <Link to="/sliders" className={chip}><ArrowLeft size={16} /> Back to admin</Link>
+          {user && <Link to="/sliders" className={chip}><ArrowLeft size={16} /> Back to admin</Link>}
           <button onClick={toggleFullscreen} className={chip} aria-label={isFull ? 'Exit full screen' : 'Enter full screen'}>
             {isFull ? <><Minimize size={16} /> Exit full screen</> : <><Maximize size={16} /> Full screen</>}
           </button>

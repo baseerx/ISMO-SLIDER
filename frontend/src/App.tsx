@@ -10,8 +10,9 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      {/* Public: display screens show slides without logging in. */}
+      <Route path="/preview" element={<SliderPreview />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/preview" element={<SliderPreview />} />
         <Route element={<AppLayout />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
