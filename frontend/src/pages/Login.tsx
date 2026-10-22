@@ -45,7 +45,7 @@ export default function Login() {
         {/* <p className="mt-1 text-sm text-slate-500">Independent System and Market Operator. Manage the banners shown on ISMO websites.</p> */}
         {error && <div role="alert" className="mt-5 rounded-md border-l-4 border-red-500 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>}
         <div className="mt-6 space-y-4">
-          <div><label htmlFor="u" className="mb-1.5 block text-sm font-medium text-slate-700">Username</label>
+          <div><label htmlFor="u" className="mb-1.5 block text-sm font-medium text-slate-700">Email</label>
             <input id="u" className="input" autoComplete="username" autoFocus value={username} onChange={(e) => setUsername(e.target.value)} /></div>
           <div><label htmlFor="p" className="mb-1.5 block text-sm font-medium text-slate-700">Password</label>
             <div className="relative">
