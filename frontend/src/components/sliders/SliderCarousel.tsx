@@ -71,10 +71,10 @@ export default function SliderCarousel({ slides }: { slides: PublicSlider[] }) {
               </>
             )}
         </div>))}
-      <div className={`absolute inset-0 ${cur.show_caption ? 'bg-gradient-to-t from-navy-950/95 via-navy-950/30 to-navy-950/40' : 'bg-gradient-to-t from-black/35 via-transparent to-transparent'}`} />
+      {cur.show_caption && <div className="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/30 to-navy-950/40" />}
 
       {cur.show_caption && (
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-16 sm:px-14 sm:pb-20">
+        <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-14 sm:pb-14">
           <h2 className="max-w-4xl font-display text-4xl font-bold leading-[1.05] text-white sm:text-6xl">{cur.name}</h2>
           {cur.description && <p className="mt-4 max-w-2xl text-base text-sky-50/85 sm:text-xl">{cur.description}</p>}
         </div>
@@ -85,16 +85,6 @@ export default function SliderCarousel({ slides }: { slides: PublicSlider[] }) {
         <button aria-label="Next slide" onClick={() => go(index + 1)} className={`${arrow} right-4 sm:right-8`}><ChevronRight size={26} /></button>
       </>}
 
-      <div className="absolute inset-x-6 bottom-6 flex items-center gap-2 sm:inset-x-14 sm:bottom-8">
-        {slides.map((s, i) => (
-          <button key={s.id} aria-label={`Go to slide ${i + 1}: ${s.name}`} aria-current={i === index} onClick={() => go(i)} className="group h-6 flex-1 focus:outline-none">
-            <span className="block h-1 overflow-hidden rounded-full bg-white/25 group-focus-visible:ring-2 group-focus-visible:ring-signal-400">
-              {i < index && <span className="block h-full w-full bg-white/80" />}
-              {i === index && <span key={s.media_type === 'video' ? `v${index}` : `${index}-${cycle}`} className="motion-safe-anim block h-full origin-left bg-signal-400"
-                style={{ animation: `fill ${s.display_duration}s linear forwards`, animationPlayState: paused ? 'paused' : 'running' }} />}
-            </span>
-          </button>))}
-      </div>
     </section>
   );
 }
