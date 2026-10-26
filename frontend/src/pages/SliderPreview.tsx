@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { sliderApi } from '../api/sliderApi';
 import SliderCarousel from '../components/sliders/SliderCarousel';
+import { useAuth } from '../context/AuthContext';
 import type { PublicSlider } from '../types';
 import { getErrorMessage } from '../utils/errors';
 
@@ -18,6 +19,7 @@ export default function SliderPreview() {
   const [error, setError] = useState('');
   const [isFull, setIsFull] = useState(false);
   const [showLogo, setShowLogo] = useState(readShowLogo);
+  const { user } = useAuth();
 
   useEffect(() => { sliderApi.active().then(setSlides).catch((e) => setError(getErrorMessage(e))); }, []);
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function SliderPreview() {
 
       <div data-testid="controls-zone" className="group absolute right-0 top-0 z-20 flex h-28 w-full max-w-xl items-start justify-end p-4 sm:p-6">
         <div className="flex flex-wrap items-center justify-end gap-3 opacity-0 transition-opacity duration-300 focus-within:opacity-100 group-hover:opacity-100">
-          <Link to="/sliders" className={chip}><ArrowLeft size={16} /> Back to admin</Link>
+          {user && <Link to="/sliders" className={chip}><ArrowLeft size={16} /> Back to admin</Link>}
           <button onClick={toggleLogo} className={chip} aria-pressed={showLogo}>
             {showLogo ? <><EyeOff size={16} /> Hide logo</> : <><Eye size={16} /> Show logo</>}
           </button>
