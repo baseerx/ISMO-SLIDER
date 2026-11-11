@@ -1,4 +1,3 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PublicSlider } from '../../types';
 
@@ -47,7 +46,6 @@ export default function SliderCarousel({ slides }: { slides: PublicSlider[] }) {
   useEffect(() => { root.current?.focus(); }, []);
 
   if (!count) return <div className="grid h-full place-items-center text-lg text-sky-100/70">No active sliders. Activate one in Slider Management.</div>;
-  const arrow = 'absolute top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/30 p-3 text-white backdrop-blur transition hover:bg-black/55 focus:outline-none focus:ring-2 focus:ring-signal-400';
   const markBroken = (id: number) => setBroken((b) => new Set(b).add(id));
 
   return (
@@ -79,11 +77,6 @@ export default function SliderCarousel({ slides }: { slides: PublicSlider[] }) {
           {cur.description && <p className="mt-4 max-w-2xl text-base text-sky-50/85 sm:text-xl">{cur.description}</p>}
         </div>
       )}
-
-      {count > 1 && <>
-        <button aria-label="Previous slide" onClick={() => go(index - 1)} className={`${arrow} left-4 sm:left-8`}><ChevronLeft size={26} /></button>
-        <button aria-label="Next slide" onClick={() => go(index + 1)} className={`${arrow} right-4 sm:right-8`}><ChevronRight size={26} /></button>
-      </>}
 
     </section>
   );
